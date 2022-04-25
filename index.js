@@ -22,7 +22,7 @@ const TREZOR_CONNECT_MANIFEST = {
   appUrl: 'https://blockwallet.io',
 };
 
-function wait (ms) {
+function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -44,12 +44,12 @@ function wait (ms) {
  * @param {TypedTransaction | OldEthJsTransaction} tx
  * @returns {tx is OldEthJsTransaction} Returns `true` if tx is an old-style ethereumjs-tx transaction.
  */
-function isOldStyleEthereumjsTx (tx) {
+function isOldStyleEthereumjsTx(tx) {
   return typeof tx.getChainId === 'function';
 }
 
 class TrezorKeyring extends EventEmitter {
-  constructor (opts = {}) {
+  constructor(opts = {}) {
     super();
     this.type = keyringType;
     this.accounts = [];
@@ -74,18 +74,18 @@ class TrezorKeyring extends EventEmitter {
    *
    * @returns {"T" | "1" | undefined}
    */
-  getModel () {
+  getModel() {
     return this.model;
   }
 
-  dispose () {
+  dispose() {
     // This removes the Trezor Connect iframe from the DOM
     // This method is not well documented, but the code it calls can be seen
     // here: https://github.com/trezor/connect/blob/dec4a56af8a65a6059fb5f63fa3c6690d2c37e00/src/js/iframe/builder.js#L181
     TrezorConnect.dispose();
   }
 
-  serialize () {
+  serialize() {
     return Promise.resolve({
       hdPath: this.hdPath,
       accounts: this.accounts,
@@ -96,7 +96,7 @@ class TrezorKeyring extends EventEmitter {
     });
   }
 
-  deserialize (opts = {}) {
+  deserialize(opts = {}) {
     this.hdPath = opts.hdPath || hdPathString;
     this.accounts = opts.accounts || [];
     this.page = opts.page || 0;
@@ -104,11 +104,11 @@ class TrezorKeyring extends EventEmitter {
     return Promise.resolve();
   }
 
-  isUnlocked () {
+  isUnlocked() {
     return Boolean(this.hdk && this.hdk.publicKey);
   }
 
-  unlock () {
+  unlock() {
     if (this.isUnlocked()) {
       return Promise.resolve('already unlocked');
     }
@@ -136,11 +136,11 @@ class TrezorKeyring extends EventEmitter {
     });
   }
 
-  setAccountToUnlock (index) {
+  setAccountToUnlock(index) {
     this.unlockedAccount = parseInt(index, 10);
   }
 
-  addAccounts (n = 1) {
+  addAccounts(n = 1) {
     return new Promise((resolve, reject) => {
       this.unlock()
         .then((_) => {
@@ -162,16 +162,16 @@ class TrezorKeyring extends EventEmitter {
     });
   }
 
-  getFirstPage () {
+  getFirstPage() {
     this.page = 0;
     return this.__getPage(1);
   }
 
-  getNextPage () {
+  getNextPage() {
     return this.__getPage(1);
   }
 
-  getPreviousPage () {
+  getPreviousPage() {
     return this.__getPage(-1);
   }
 
@@ -180,12 +180,12 @@ class TrezorKeyring extends EventEmitter {
    * @param {number} page: The page to get.
    * @returns accounts on the page.
    */
-  getPage (page) {
+  getPage(page) {
     this.page = page;
     return this.__getPage(0);
   }
 
-  __getPage (increment) {
+  __getPage(increment) {
     this.page += increment;
 
     if (this.page <= 0) {
@@ -217,11 +217,11 @@ class TrezorKeyring extends EventEmitter {
     });
   }
 
-  getAccounts () {
+  getAccounts() {
     return Promise.resolve(this.accounts.slice());
   }
 
-  removeAccount (address) {
+  removeAccount(address) {
     if (
       !this.accounts.map((a) => a.toLowerCase()).includes(address.toLowerCase())
     ) {
@@ -245,7 +245,7 @@ class TrezorKeyring extends EventEmitter {
    * @returns {Promise<Transaction>} The signed transaction, an instance of either new-style or old-style
    * ethereumjs transaction.
    */
-  signTransaction (address, tx) {
+  signTransaction(address, tx) {
     if (isOldStyleEthereumjsTx(tx)) {
       // In this version of ethereumjs-tx we must add the chainId in hex format
       // to the initial v value. The chainId must be included in the serialized
@@ -295,7 +295,7 @@ class TrezorKeyring extends EventEmitter {
    * @returns {Promise<Transaction>} The signed transaction, an instance of either new-style or old-style
    * ethereumjs transaction.
    */
-  async _signTransaction (address, chainId, tx, handleSigning) {
+  async _signTransaction(address, chainId, tx, handleSigning) {
     let transaction;
     if (isOldStyleEthereumjsTx(tx)) {
       // legacy transaction from ethereumjs-tx package has no .toJSON() function,
@@ -349,12 +349,12 @@ class TrezorKeyring extends EventEmitter {
     }
   }
 
-  signMessage (withAccount, data) {
+  signMessage(withAccount, data) {
     return this.signPersonalMessage(withAccount, data);
   }
 
   // For personal_sign, we need to prefix the message:
-  signPersonalMessage (withAccount, message) {
+  signPersonalMessage(withAccount, message) {
     return new Promise((resolve, reject) => {
       this.unlock()
         .then((status) => {
@@ -404,7 +404,7 @@ class TrezorKeyring extends EventEmitter {
   /**
    * EIP-712 Sign Typed Data
    */
-  async signTypedData (address, data, { version }) {
+  async signTypedData(address, data, { version }) {
     const dataWithHashes = transformTypedData(data, version === 'V4');
 
     // set default values for signTypedData
@@ -450,11 +450,11 @@ class TrezorKeyring extends EventEmitter {
     );
   }
 
-  exportAccount () {
+  exportAccount() {
     return Promise.reject(new Error('Not supported on this device'));
   }
 
-  forgetDevice () {
+  forgetDevice() {
     this.accounts = [];
     this.hdk = new HDKey();
     this.page = 0;
@@ -472,7 +472,7 @@ class TrezorKeyring extends EventEmitter {
    *
    * @param {string} hdPath - The HD path to set.
    */
-  setHdPath (hdPath) {
+  setHdPath(hdPath) {
     if (!ALLOWED_HD_PATHS[hdPath]) {
       throw new Error(
         `The setHdPath method does not support setting HD Path to ${hdPath}`,
@@ -493,12 +493,12 @@ class TrezorKeyring extends EventEmitter {
 
   /* PRIVATE METHODS */
 
-  _normalize (buf) {
+  _normalize(buf) {
     return ethUtil.bufferToHex(buf).toString();
   }
 
   // eslint-disable-next-line no-shadow
-  _addressFromIndex (pathBase, i) {
+  _addressFromIndex(pathBase, i) {
     const dkey = this.hdk.derive(`${pathBase}/${i}`);
     const address = ethUtil
       .publicToAddress(dkey.publicKey, true)
@@ -506,7 +506,7 @@ class TrezorKeyring extends EventEmitter {
     return ethUtil.toChecksumAddress(`0x${address}`);
   }
 
-  _pathFromAddress (address) {
+  _pathFromAddress(address) {
     const checksummedAddress = ethUtil.toChecksumAddress(address);
     let index = this.paths[checksummedAddress];
     if (typeof index === 'undefined') {
