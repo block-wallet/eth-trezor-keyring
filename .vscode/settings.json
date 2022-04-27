@@ -1,0 +1,12 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "editor.tabSize": 2,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "javascript.preferences.quoteStyle": "single",
+  "prettier.jsxSingleQuote": true,
+  "prettier.arrowParens": "avoid"
+}
