@@ -358,6 +358,15 @@ describe('TrezorKeyring', function () {
     });
   });
 
+  describe('getPage', function () {
+    it('should move to the requested page', async function () {
+      const accounts = await keyring.getPage(2)
+      expect(accounts.length, keyring.perPage)
+      expect(keyring.page, 2)
+      expect(accounts[0].address, fakeAccounts[keyring.perPage + 0])
+    })
+  })
+
   describe('getAccounts', function () {
     const accountIndex = 5;
     let accounts = [];

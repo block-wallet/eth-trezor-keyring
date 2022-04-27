@@ -175,6 +175,16 @@ class TrezorKeyring extends EventEmitter {
     return this.__getPage(-1);
   }
 
+  /**
+   * Returns specific page of accounts.
+   * @param {number} page: The page to get.
+   * @returns accounts on the page.
+   */
+  getPage(page) {
+    this.page = page;
+    return this.__getPage(0);
+  }
+
   __getPage(increment) {
     this.page += increment;
 
@@ -371,7 +381,7 @@ class TrezorKeyring extends EventEmitter {
                     reject(
                       new Error(
                         (response.payload && response.payload.error) ||
-                          'Unknown error',
+                        'Unknown error',
                       ),
                     );
                   }
