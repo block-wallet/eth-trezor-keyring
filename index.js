@@ -108,8 +108,8 @@ class TrezorKeyring extends EventEmitter {
     return Boolean(this.hdk && this.hdk.publicKey);
   }
 
-  unlock() {
-    if (this.isUnlocked()) {
+  unlock(forceUnlock = false) {
+    if (this.isUnlocked() && !forceUnlock) {
       return Promise.resolve('already unlocked');
     }
     return new Promise((resolve, reject) => {
