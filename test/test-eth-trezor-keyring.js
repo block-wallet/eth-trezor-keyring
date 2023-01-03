@@ -14,7 +14,7 @@ const {
   TransactionFactory,
   FeeMarketEIP1559Transaction,
 } = require('@ethereumjs/tx')
-const { default: Common, Chain, Hardfork } = require('@ethereumjs/common')
+const { Common, Chain, Hardfork } = require('@ethereumjs/common')
 
 const TrezorKeyring = require('..')
 
@@ -433,7 +433,7 @@ describe('TrezorKeyring', function () {
       )
       // ensure we get a new version transaction back
       assert.equal(returnedTx.getChainId, undefined)
-      assert.equal(returnedTx.common.chainIdBN().toString('hex'), '1')
+      assert.equal(returnedTx.common.chainId().toString(), '1')
       assert(TrezorConnect.ethereumSignTransaction.calledOnce)
     })
 
@@ -466,7 +466,7 @@ describe('TrezorKeyring', function () {
       )
       // ensure we get a new version transaction back
       assert.equal(returnedTx.getChainId, undefined)
-      assert.equal(returnedTx.common.chainIdBN().toString('hex'), '1')
+      assert.equal(returnedTx.common.chainId().toString(), '1')
       assert(TrezorConnect.ethereumSignTransaction.calledOnce)
       assert.deepEqual(
         TrezorConnect.ethereumSignTransaction.getCall(0).args[0],
