@@ -15,7 +15,7 @@ const ALLOWED_HD_PATHS = {
 
 const keyringType = 'Trezor Hardware'
 const pathBase = 'm'
-const MAX_INDEX = 1000
+const MAX_INDEX = 100000
 const DELAY_BETWEEN_POPUPS = 1000
 const TREZOR_CONNECT_MANIFEST = {
   email: 'hello@blockwallet.io',
