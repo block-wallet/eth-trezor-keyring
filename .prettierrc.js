@@ -4,7 +4,8 @@
  * setting. It grabs the config from the shared eslint-config and re-exports
  * it to prevent any issues with mismatched settings
  */
-const config = require('@metamask/eslint-config');
-const prettierConfig = config.rules[`prettier/prettier`][1];
+const config = require('@metamask/eslint-config')
 
-module.exports = prettierConfig;
+const prettierConfig = config.rules[`prettier/prettier`][1]
+
+module.exports = prettierConfig
