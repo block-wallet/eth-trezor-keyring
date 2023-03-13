@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-mutable-exports
-let windowShim: any;
+let windowShim: any
 
 try {
   // eslint-disable-next-line no-undef
@@ -11,7 +11,7 @@ try {
     },
     addEventListener: () => false,
     setTimeout: () => false,
-  };
+  }
 } catch (e) {
   windowShim = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -21,7 +21,7 @@ try {
     },
     addEventListener: () => false,
     setTimeout: () => false,
-  };
+  }
 }
 
-export default windowShim;
+export default windowShim

@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-mutable-exports
-let navigatorShim: any;
+let navigatorShim: any
 
 try {
   // eslint-disable-next-line no-undef
@@ -14,4 +14,4 @@ try {
   }
 }
 
-export default navigatorShim;
+export default navigatorShim

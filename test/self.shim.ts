@@ -1,10 +1,10 @@
 // eslint-disable-next-line import/no-mutable-exports
-let selfShim: any;
+let selfShim: any
 
 try {
-  selfShim = self || {};
+  selfShim = self || {}
 } catch (e) {
-  selfShim = {};
+  selfShim = {}
 }
 
-export default selfShim;
+export default selfShim
